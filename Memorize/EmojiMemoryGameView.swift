@@ -12,12 +12,10 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     
     var body: some View {
-        HStack {
-            ForEach(viewModel.cards) { card in
+        Grid(items: viewModel.cards) { card in
                 Cardviwe(card: card).onTapGesture {
                     self.viewModel.choose(card: card)
                 }
-            }
         }
             .foregroundColor(Color.orange)
             .padding()
@@ -34,14 +32,22 @@ struct Cardviwe: View {
     var card:MemoryGame<String>.Card
     
     var body: some View{
-        ZStack {
-            if card.isFaceUp {
-                RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 4)
-                RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
-                Text(card.content)
-            } else {
-                RoundedRectangle(cornerRadius: 10.0).fill()
+        GeometryReader(content: { geometry in
+            ZStack {
+                if card.isFaceUp {
+                    RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
+                    RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
+                    Text(card.content)
+                } else {
+                    RoundedRectangle(cornerRadius: 10.0).fill()
+                    }
+            }
+            .font(Font.system(size: min(geometry.size.width,geometry.size.height)*fontScaleFactor))
+        })
+
     }
-}
-}
+    // MARK: - 控制绘制常量的面板
+    let cornerRadius: CGFloat = 10.0
+    let edgeLineWidth: CGFloat = 4
+    let fontScaleFactor: CGFloat = 1
 }
