@@ -8,13 +8,36 @@
 
 import Foundation
 
-struct MemoryGame<CardContent> {
+struct MemoryGame<CardContent> where CardContent: Equatable {
     var cards: Array<Card>
+    
+    var indexOfTheOneOnlyUpCard: Int? {
+        get {
+            
+        }
+        set {
+            
+        }
+    }
     
     mutating func choose(_ card: Card){
         print("card chosen\(card)")
-        let chosenIndex: Int = cards.firstIndex(matching: card)
-        self.cards[chosenIndex].isFaceUp = !self.cards[chosenIndex].isFaceUp
+        if let chosenIndex = cards.firstIndex(matching: card), !cards[chosenIndex].isFaceUp, !cards[chosenIndex].isMatched {
+            if let potentiaMatchIndex = indexOfTheOneOnlyUpCard {
+                if cards[chosenIndex].content == cards[potentiaMatchIndex].content {
+                    cards[chosenIndex].isMatched = true
+                    cards[potentiaMatchIndex].isMatched = true
+                }
+                indexOfTheOneOnlyUpCard = nil
+            } else {
+                for index in cards.indices {
+                        cards[index].isFaceUp = false
+                }
+                indexOfTheOneOnlyUpCard = chosenIndex
+            }
+            
+            self.cards[chosenIndex].isFaceUp = true
+        }
     }
     
     
@@ -23,8 +46,8 @@ struct MemoryGame<CardContent> {
         // 创建空数组
         for pairIndex in 0..<nubmerOfPairsOfCards{
         let content = cardContentFactory(pairIndex)
-            cards.append(Card(isFaceUp: true, isMatched: false, content: content, id: pairIndex*2))
-            cards.append(Card(isFaceUp: true, isMatched: false, content: content, id: pairIndex*2+1))
+            cards.append(Card(isFaceUp: false, isMatched: false, content: content, id: pairIndex*2))
+            cards.append(Card(isFaceUp: false, isMatched: false, content: content, id: pairIndex*2+1))
         }
     }
     struct Card: Identifiable {
