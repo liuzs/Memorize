@@ -11,14 +11,7 @@ import Foundation
 struct MemoryGame<CardContent> where CardContent: Equatable {
     var cards: Array<Card>
     
-    var indexOfTheOneOnlyUpCard: Int? {
-        get {
-            
-        }
-        set {
-            
-        }
-    }
+    var indexOfTheOneOnlyUpCard: Int?
     
     mutating func choose(_ card: Card){
         print("card chosen\(card)")
