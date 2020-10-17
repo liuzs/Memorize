@@ -38,6 +38,7 @@ struct Cardviwe: View {
                 if card.isFaceUp {
                     RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
                     RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
+                    Pie(startAngle: Angle.degrees(0-90),endAngle: Angle.degrees(110-90),clockwise: true)
                     Text(card.content)
                 } else {
                     if !card.isMatched {
@@ -50,7 +51,7 @@ struct Cardviwe: View {
 
     }
     // MARK: - 控制绘制常量的面板
-    let cornerRadius: CGFloat = 10.0
-    let edgeLineWidth: CGFloat = 4
-    let fontScaleFactor: CGFloat = 1
+    private let cornerRadius: CGFloat = 10.0
+    private let edgeLineWidth: CGFloat = 4
+    private let fontScaleFactor: CGFloat = 1
 }

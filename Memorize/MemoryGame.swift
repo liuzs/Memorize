@@ -9,9 +9,9 @@
 import Foundation
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
-    var cards: Array<Card>
+    private(set) var cards: Array<Card>
     
-    var indexOfTheOneOnlyUpCard: Int?
+    private var indexOfTheOneOnlyUpCard: Int?
     
     mutating func choose(_ card: Card){
         print("card chosen\(card)")
